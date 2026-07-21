@@ -8,7 +8,6 @@
         body {
             font-family: system-ui, -apple-system, sans-serif;
             text-align: center;
-            /* Zentriert den Inhalt vertikal und horizontal */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,16 +23,16 @@
             display: inline-block;
             margin-top: 20px;
             padding: 15px 30px;
-            /* Das typische Modrinth-Grün */
             background-color: #00af5c;
             color: white;
             text-decoration: none;
             border-radius: 8px;
             font-weight: bold;
             font-size: 1.2rem;
-            /* Ein leichter Schatten für den Button-Look */
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             transition: background-color 0.2s, transform 0.1s;
+            border: none;
+            cursor: pointer;
         }
         .btn:hover {
             background-color: #008f4b;
@@ -50,10 +49,22 @@
         <h2>Bereit, Lolsu zu öffnen?</h2>
         <p>Klicke auf den Button, um die Mod direkt in der Modrinth-App zu öffnen.</p>
         
-        <!-- Dies ist die Schaltfläche, die den Befehl auslöst -->
-        <a href="modrinth://mod/lolsu" class="btn">Lolsu in Modrinth-App öffnen</a>
+        <button id="open-btn" class="btn">Lolsu in Modrinth-App öffnen</button>
     </div>
 
-    <!-- HINWEIS: Wir haben das automatische JavaScript entfernt! -->
+    <script>
+        document.getElementById('open-btn').addEventListener('click', function() {
+            // Erzeugt im Hintergrund ein unsichtbares Element, das das App-Protokoll auslöst
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = 'modrinth://mod/lolsu';
+            document.body.appendChild(iframe);
+
+            // Löscht das unsichtbare Element nach 1 Sekunde wieder auf
+            setTimeout(() => {
+                iframe.remove();
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
