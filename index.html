@@ -3,41 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Öffne Lolsu in Modrinth...</title>
+    <title>In Modrinth öffnen</title>
     <style>
         body {
             font-family: system-ui, -apple-system, sans-serif;
             text-align: center;
-            padding: 50px 20px;
+            /* Zentriert den Inhalt vertikal und horizontal */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
             background-color: #1a1a1a;
             color: #ffffff;
         }
+        .container {
+            padding: 20px;
+        }
         .btn {
             display: inline-block;
-            margin-top: 15px;
-            padding: 12px 24px;
+            margin-top: 20px;
+            padding: 15px 30px;
+            /* Das typische Modrinth-Grün */
             background-color: #00af5c;
             color: white;
             text-decoration: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: bold;
+            font-size: 1.2rem;
+            /* Ein leichter Schatten für den Button-Look */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: background-color 0.2s, transform 0.1s;
         }
         .btn:hover {
             background-color: #008f4b;
+        }
+        .btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
     </style>
 </head>
 <body>
 
-    <div>
-        <h2>Modrinth-App wird gestartet...</h2>
-        <p>Falls sich die App nicht automatisch öffnet, klicke auf den Button:</p>
+    <div class="container">
+        <h2>Bereit, Lolsu zu öffnen?</h2>
+        <p>Klicke auf den Button, um die Mod direkt in der Modrinth-App zu öffnen.</p>
+        
+        <!-- Dies ist die Schaltfläche, die den Befehl auslöst -->
         <a href="modrinth://mod/lolsu" class="btn">Lolsu in Modrinth-App öffnen</a>
     </div>
 
-    <script>
-        // Leitet sofort direkt an die Modrinth-App weiter
-        window.location.href = "modrinth://mod/lolsu";
-    </script>
+    <!-- HINWEIS: Wir haben das automatische JavaScript entfernt! -->
 </body>
 </html>
