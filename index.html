@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Öffne in Modrinth...</title>
+    <script>
+        // Liest den Mod-Namen aus der URL (z.B. ?mod=lolsu)
+        const params = new URLSearchParams(window.location.search);
+        const mod = params.get('mod');
+
+        if (mod) {
+            // Leitet direkt an die Modrinth-App weiter
+            window.location.href = "modrinth://mod/" + mod;
+        }
+    </script>
+</head>
+<body style="font-family: sans-serif; text-align: center; padding-top: 50px;">
+    <h2>Modrinth-App wird gestartet...</h2>
+    <p>Falls sich nichts öffnet, stelle sicher, dass du die Modrinth-App installiert hast.</p>
+</body>
+</html>
