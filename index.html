@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Öffne in Modrinth...</title>
+    <title>Öffne Lolsu in Modrinth...</title>
     <style>
         body {
             font-family: system-ui, -apple-system, sans-serif;
@@ -29,33 +29,15 @@
 </head>
 <body>
 
-    <div id="content">
+    <div>
         <h2>Modrinth-App wird gestartet...</h2>
         <p>Falls sich die App nicht automatisch öffnet, klicke auf den Button:</p>
-        <a id="app-link" href="#" class="btn">In Modrinth-App öffnen</a>
+        <a href="modrinth://mod/lolsu" class="btn">Lolsu in Modrinth-App öffnen</a>
     </div>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const mod = params.get('mod');
-
-        if (mod) {
-            // Mod-Name absichern
-            const cleanMod = encodeURIComponent(mod);
-            const targetUri = "modrinth://mod/" + cleanMod;
-
-            // Link auf dem Button setzen
-            document.getElementById('app-link').href = targetUri;
-
-            // Automatischen Aufruf versuchen
-            window.location.href = targetUri;
-        } else {
-            // Anzeige, falls kein ?mod= angegeben wurde
-            document.getElementById('content').innerHTML = `
-                <h2>Keine Mod angegeben!</h2>
-                <p>Nutze den Link mit Parameter, z. B. <code>?mod=lolsu</code></p>
-            `;
-        }
+        // Leitet sofort direkt an die Modrinth-App weiter
+        window.location.href = "modrinth://mod/lolsu";
     </script>
 </body>
 </html>
