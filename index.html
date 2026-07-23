@@ -3,114 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lolsu | Modrinth</title>
-    <!-- Lädt die moderne Schriftart "Inter" von Google -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Lolsu-Modpack | Modrinth</title>
+    <!-- Google Fonts: Plus Jakarta Sans & Space Grotesk -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
     <style>
-        /* Farbpalette und Variablen für einfaches Ändern */
         :root {
-            --modrinth-green: #00af5c;
-            --modrinth-green-hover: #008f4b;
-            --modrinth-green-glow: rgba(0, 175, 92, 0.4);
-            --bg-gradient-1: #0f172a;
-            --bg-gradient-2: #1e293b;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            --brand-green: #00af5c;
+            --brand-green-hover: #008f4b;
+            --brand-green-glow: rgba(0, 175, 92, 0.35);
+            --bg-dark: #080b11;
+            --card-bg: rgba(15, 23, 42, 0.85);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
-            /* Ein schicker, ganz dunkler Blau-Grau-Verlauf für den Hintergrund */
-            background: linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2));
-            color: var(--text-main);
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            overflow: hidden;
+            position: relative;
         }
 
-        /* Moderne Glas-Box in der Mitte */
+        /* --- Direct 1:1 Instant Cursor Glow --- */
+        #cursor-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            background: radial-gradient(
+                circle at center,
+                rgba(0, 175, 92, 0.22) 0%,
+                rgba(0, 175, 92, 0.08) 35%,
+                rgba(0, 175, 92, 0) 70%
+            );
+            mix-blend-mode: screen;
+            will-change: transform;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* --- Card Wrapper (Größer & Präsenter) --- */
+        .card-wrapper {
+            position: relative;
+            border-radius: 32px;
+            padding: 1px;
+            background: rgba(255, 255, 255, 0.08);
+            z-index: 2;
+            max-width: 500px;
+            width: 92%;
+            box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.75);
+        }
+
+        /* Dynamic Spotlight Border */
+        .card-wrapper::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 32px;
+            padding: 1px;
+            background: radial-gradient(
+                550px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(0, 175, 92, 0.5),
+                transparent 40%
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
         .card {
             background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 40px 30px;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 31px;
+            padding: 52px 40px;
+        }
+
+        /* Top Badge */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            background: rgba(0, 175, 92, 0.12);
+            border: 1px solid rgba(0, 175, 92, 0.28);
+            border-radius: 100px;
+            color: #00ff87;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
         }
 
         .icon {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 0 15px var(--modrinth-green-glow));
+            font-size: 4.5rem;
+            margin-bottom: 16px;
+            display: inline-block;
+            filter: drop-shadow(0 0 24px var(--brand-green-glow));
         }
 
         h2 {
-            margin: 0 0 10px 0;
-            font-weight: 800;
-            font-size: 1.8rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 2.1rem;
             letter-spacing: -0.5px;
+            margin-bottom: 12px;
+            background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         p {
-            color: var(--text-muted);
-            margin: 0 0 30px 0;
-            font-size: 1rem;
-            line-height: 1.5;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 36px;
         }
 
-        /* Der große Action-Button */
+        /* --- Shimmer Button (Größer) --- */
         .btn {
+            position: relative;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             width: 100%;
-            padding: 16px 24px;
-            background-color: var(--modrinth-green);
+            padding: 18px 28px;
+            background-color: var(--brand-green);
             color: white;
             text-decoration: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            box-shadow: 0 8px 20px var(--modrinth-green-glow);
-            transition: all 0.3s ease;
-            box-sizing: border-box;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.15rem;
+            box-shadow: 0 10px 30px var(--brand-green-glow);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Continuous Licht-Schimmer */
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                60deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.25) 50%,
+                transparent 70%
+            );
+            transform: rotate(30deg);
+            animation: shimmer 4s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translate(-100%, -100%) rotate(30deg); }
+            100% { transform: translate(100%, 100%) rotate(30deg); }
         }
 
         .btn:hover {
-            background-color: var(--modrinth-green-hover);
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px var(--modrinth-green-glow);
+            background-color: var(--brand-green-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 35px var(--brand-green-glow);
         }
 
         .btn:active {
             transform: translateY(1px);
-            box-shadow: 0 4px 10px var(--modrinth-green-glow);
         }
-        
-        /* Der Button, wenn er rot wird */
+
+        /* Rot-Zustand nach Klick */
         .btn-clicked {
             background-color: #ef4444 !important;
-            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4) !important;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4) !important;
         }
 
         .btn-clicked:hover {
             background-color: #dc2626 !important;
-            box-shadow: 0 12px 25px rgba(239, 68, 68, 0.4) !important;
+            box-shadow: 0 14px 35px rgba(239, 68, 68, 0.4) !important;
         }
 
-        /* Butterweiche Einblend-Animation für die Meldung */
-        @keyframes slideDownFade {
+        /* Status Box Animation */
+        @keyframes slideUpFade {
             from {
                 opacity: 0;
-                transform: translateY(-15px);
+                transform: translateY(12px);
             }
             to {
                 opacity: 1;
@@ -120,62 +219,85 @@
 
         .status-msg {
             display: none;
-            margin-top: 25px;
-            padding: 16px;
+            margin-top: 28px;
+            padding: 18px;
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            font-size: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            font-size: 0.98rem;
             line-height: 1.6;
             color: #cbd5e1;
         }
 
-        /* Diese Klasse fügt das JavaScript hinzu, um die Box anzuzeigen */
         .status-msg.show {
             display: block;
-            animation: slideDownFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: slideUpFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .highlight {
-            color: white;
-            font-weight: 600;
+            color: #ffffff;
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="icon">📦</div>
-        
-        <h2>Lolsu-Modpack installieren</h2>
-        <p>Ein Klick und die Modrinth-App übernimmt den Rest.</p>
-        
-        <a href="modrinth://mod/lolsu" target="_blank" class="btn" id="modrinth-btn">
-            <!-- Kleines Download-Icon direkt im Button -->
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            In Modrinth öffnen
-        </a>
+    <!-- Direct 1:1 Cursor Glow -->
+    <div id="cursor-glow"></div>
 
-        <div id="status-msg" class="status-msg">
-            <span class="highlight">✨ Modrinth wird gestartet!</span><br><br>
-            Sollte sich nichts öffnen, drücke einfach noch einmal auf den Button.
+    <!-- Card Container -->
+    <div class="card-wrapper" id="card-wrapper">
+        <div class="card">
+            
+            <div class="badge">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                Modrinth Modpack
+            </div>
+            
+            <br>
+            <div class="icon">📦</div>
+            
+            <h2>Lolsu-Modpack installieren</h2>
+            <p>Ein Klick öffnet das Pack direkt in deiner lokalen Modrinth-App.</p>
+            
+            <a href="modrinth://mod/lolsu" target="_blank" class="btn" id="modrinth-btn">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                In Modrinth öffnen
+            </a>
+
+            <div id="status-msg" class="status-msg">
+                <span class="highlight">✨ Modrinth wird gestartet!</span><br>
+                Falls sich die App nicht öffnet, drücke einfach erneut auf den Button.
+            </div>
         </div>
     </div>
 
     <script>
+        // --- 1. Button Logik ---
         document.getElementById('modrinth-btn').addEventListener('click', function() {
-            // Button auf Rot wechseln
             this.classList.add('btn-clicked');
-            
-            // Text und Icon vom Button ändern (Häkchen-Icon)
             this.innerHTML = `
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 Erneut versuchen
             `;
-            
-            // Statusbox mit Animation einblenden
             document.getElementById('status-msg').classList.add('show');
         });
+
+        // --- 2. Instant Direct Cursor Tracking (Zero Delay) ---
+        const glow = document.getElementById('cursor-glow');
+        const cardWrapper = document.getElementById('card-wrapper');
+
+        document.addEventListener('mousemove', function(e) {
+            glow.style.transform = `translate3d(${e.clientX - 300}px, ${e.clientY - 300}px, 0)`;
+            glow.style.opacity = '1';
+
+            const rect = cardWrapper.getBoundingClientRect();
+            cardWrapper.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+            cardWrapper.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+        });
+
+        document.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+        document.addEventListener('mouseenter', () => { glow.style.opacity = '1'; });
     </script>
 
 </body>
