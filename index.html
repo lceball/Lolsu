@@ -3,53 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>In Modrinth öffnen</title>
+    <title>Lolsu | Modrinth</title>
+    <!-- Lädt die moderne Schriftart "Inter" von Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
+        /* Farbpalette und Variablen für einfaches Ändern */
+        :root {
+            --modrinth-green: #00af5c;
+            --modrinth-green-hover: #008f4b;
+            --modrinth-green-glow: rgba(0, 175, 92, 0.4);
+            --bg-gradient-1: #0f172a;
+            --bg-gradient-2: #1e293b;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
         body {
-            font-family: system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
             text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #1a1a1a;
-            color: #ffffff;
+            /* Ein schicker, ganz dunkler Blau-Grau-Verlauf für den Hintergrund */
+            background: linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2));
+            color: var(--text-main);
         }
-        .container {
-            padding: 20px;
+
+        /* Moderne Glas-Box in der Mitte */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 40px 30px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
+
+        .icon {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 15px var(--modrinth-green-glow));
+        }
+
+        h2 {
+            margin: 0 0 10px 0;
+            font-weight: 800;
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+        }
+
+        p {
+            color: var(--text-muted);
+            margin: 0 0 30px 0;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Der große Action-Button */
         .btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 15px 30px;
-            background-color: #00af5c;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px 24px;
+            background-color: var(--modrinth-green);
             color: white;
             text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            transition: background-color 0.2s, transform 0.1s;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 20px var(--modrinth-green-glow);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
         }
+
         .btn:hover {
-            background-color: #008f4b;
+            background-color: var(--modrinth-green-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px var(--modrinth-green-glow);
         }
+
         .btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            transform: translateY(1px);
+            box-shadow: 0 4px 10px var(--modrinth-green-glow);
+        }
+        
+        /* Der Button, wenn er rot wird */
+        .btn-clicked {
+            background-color: #ef4444 !important;
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4) !important;
+        }
+
+        .btn-clicked:hover {
+            background-color: #dc2626 !important;
+            box-shadow: 0 12px 25px rgba(239, 68, 68, 0.4) !important;
+        }
+
+        /* Butterweiche Einblend-Animation für die Meldung */
+        @keyframes slideDownFade {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .status-msg {
+            display: none;
+            margin-top: 25px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        /* Diese Klasse fügt das JavaScript hinzu, um die Box anzuzeigen */
+        .status-msg.show {
+            display: block;
+            animation: slideDownFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .highlight {
+            color: white;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h2>Bereit, Lolsu zu öffnen?</h2>
-        <p>Klicke auf den Button, um die Mod direkt in der Modrinth-App zu öffnen.</p>
+    <div class="card">
+        <div class="icon">📦</div>
         
-        <!-- Der Trick: target="_blank" zwingt den Aufruf in einen neuen Tab -->
-        <a href="modrinth://mod/lolsu" target="_blank" class="btn">Lolsu in Modrinth-App öffnen</a>
+        <h2>Lolsu installieren</h2>
+        <p>Ein Klick und die Modrinth-App übernimmt den Rest.</p>
+        
+        <a href="modrinth://mod/lolsu" target="_blank" class="btn" id="modrinth-btn">
+            <!-- Kleines Download-Icon direkt im Button -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            In Modrinth öffnen
+        </a>
+
+        <div id="status-msg" class="status-msg">
+            <span class="highlight">✨ Modrinth wird gestartet!</span><br><br>
+            Sollte sich nichts öffnen, drücke einfach noch einmal auf den Button.
+        </div>
     </div>
+
+    <script>
+        document.getElementById('modrinth-btn').addEventListener('click', function() {
+            // Button auf Rot wechseln
+            this.classList.add('btn-clicked');
+            
+            // Text und Icon vom Button ändern (Häkchen-Icon)
+            this.innerHTML = `
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Erneut versuchen
+            `;
+            
+            // Statusbox mit Animation einblenden
+            document.getElementById('status-msg').classList.add('show');
+        });
+    </script>
 
 </body>
 </html>
